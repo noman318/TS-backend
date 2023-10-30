@@ -1,33 +1,16 @@
 import { Router, Request, Response } from "express";
+import AuthorController from "../controller/Author";
 
 const router = Router();
 
-router.get("/", (req: Request, res: Response) => {
-  res.send("In router routes file");
-});
+router.post("/create-author", AuthorController.createAuthor);
 
-router.get("/:id", (req: Request, res: Response) => {
-  const params = req.params.id;
-  // console.log("params", params);
-  res.send("In router routes file");
-});
+router.get("/author/:id", AuthorController.readOneAuthor);
 
-router.post("/", (req: Request, res: Response) => {
-  const params = req.params.id;
-  // console.log("params", params);
-  res.send("In router routes file");
-});
+router.get("/all-authors", AuthorController.readAllAuthor);
 
-router.put("/:id", (req: Request, res: Response) => {
-  const params = req.params.id;
-  // console.log("params", params);
-  res.send("In router routes file");
-});
+router.put("/update/:id", AuthorController.updateAuthor);
 
-router.delete("/:id", (req: Request, res: Response) => {
-  const params = req.params.id;
-  // console.log("params", params);
-  res.send("In router routes file");
-});
+router.delete("/delete/:id", AuthorController.deleteAuthor);
 
 export default router;
