@@ -1,7 +1,7 @@
 console.log("Author controller");
 import { Request, Response, NextFunction } from "express";
 import mongoose from "mongoose";
-import Author from "../models/Author";
+import Author from "../models/Author.model";
 
 const createAuthor = async (
   req: Request,

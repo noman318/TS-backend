@@ -2,7 +2,8 @@ import express, { Request, Response, Express, NextFunction } from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import AuthorRoutes from "./routes/index";
+import AuthorRoutes from "./routes/author";
+import BookRoutes from "./routes/book";
 import { config } from "./config/config";
 
 const app: Express = express();
@@ -49,6 +50,7 @@ const StartServer = () => {
   });
 
   app.use("/author", AuthorRoutes);
+  app.use("/book", BookRoutes);
 
   app.get("/ping", (req: Request, res: Response, next: NextFunction): void => {
     res.status(200).json({ message: "Root Route Working" });
