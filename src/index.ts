@@ -21,7 +21,7 @@ mongoose
 const StartServer = () => {
   app.use((req: Request, res: Response, next: NextFunction) => {
     console.log(
-      `Incomming -> Method: [${req.method}]- URL: [${req.url}]- IP; [${req.socket.remoteAddress}] `
+      `Incomming -> Method: [${req.method}]- URL: [${req.url}]- IP: [${req.socket.remoteAddress}] - Status: [${res.statusCode}] `
     );
 
     res.on("finish", () => {
