@@ -91,10 +91,52 @@ const deleteAuthor = async (
   }
 };
 
+const searchDataAuthor = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const searchString = req.body.search;
+
+  if (searchString === undefined) {
+    return res.status(400).json({ error: "Search input is missing." });
+  }
+
+  const searchFields = ["age"];
+  const searchStrings = ["name", "genre"];
+
+  try {
+    let searchResults;
+    if (typeof searchString === "number") {
+      console.log("searchStringInNumber", searchString);
+      searchResults = await Author.find({
+        $or: searchFields.map((field) => ({
+          [field]: searchString,
+        })),
+      });
+    } else if (typeof searchString === "string") {
+      console.log("searchStringInTextInElse", searchString);
+      console.log("searchStringInText", searchString);
+      searchResults = await Author.find({
+        $or: searchStrings.map((field) => ({
+          [field]: { $regex: searchString, $options: "i" },
+        })),
+      });
+    }
+
+    console.log("searchResults", searchResults);
+    return res.send(searchResults);
+  } catch (error: any) {
+    // console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export default {
   createAuthor,
   readOneAuthor,
   readAllAuthor,
   updateAuthor,
   deleteAuthor,
+  searchDataAuthor,
 };

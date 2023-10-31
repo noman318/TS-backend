@@ -13,4 +13,6 @@ router.put("/update/:id", AuthorController.updateAuthor);
 
 router.delete("/delete/:id", AuthorController.deleteAuthor);
 
+router.post("/search", AuthorController.searchDataAuthor);
+
 export default router;

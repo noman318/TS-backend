@@ -77,4 +77,89 @@ const deleteBook = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { getAllBook, getOneBook, createBook, updateBook, deleteBook };
+// const searchData = async (req: Request, res: Response, next: NextFunction) => {
+//   const searchString = req.body.search;
+//   console.log("searchString", searchString.toString());
+//   const searchFields = ["title", "price"];
+//   try {
+//     // const searchResults = await Book.find({
+//     //   $or: [{ title: { $regex: searchString, $options: "i" } }],
+//     // });
+//     const searchResults = await Book.find({
+//       $or: searchFields.map((field) => {
+//         const query: Record<string, any> = {};
+
+//         if (typeof searchString === "number") {
+//           query[field] = searchString;
+//         } else if (typeof searchString === "string") {
+//           query[field] = { $regex: searchString, $options: "i" };
+//         }
+//         console.log("query", query);
+
+//         return query;
+//       }),
+//     });
+//     console.log("searchResults", searchResults);
+//     return res.send(searchResults);
+//   } catch (error: any) {
+//     return res.status(500).send({ message: error.message });
+//   }
+// };
+const searchData = async (req: Request, res: Response, next: NextFunction) => {
+  const searchString = req.body.search;
+
+  if (searchString === undefined) {
+    return res.status(400).json({ error: "Search input is missing." });
+  }
+
+  const searchFields = ["title", "price"];
+
+  try {
+    let searchResults;
+    if (typeof searchString === "number") {
+      console.log("searchStringInNumber", searchString);
+      searchResults = await Book.find({
+        $or: searchFields.map((field) => ({
+          [field]: searchString,
+        })),
+      });
+    } else if (typeof searchString === "string") {
+      console.log("searchStringInTextInElse", searchString);
+      console.log("searchStringInText", searchString);
+      searchResults = await Book.find({
+        $or: searchFields.map((field) => ({
+          title: { $regex: searchString, $options: "i" },
+        })),
+      });
+    }
+
+    console.log("searchResults", searchResults);
+    return res.send(searchResults);
+  } catch (error: any) {
+    // console.error(error);
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+const filterData = async (req: Request, res: Response) => {
+  const filterQuery = req.body;
+  console.log("filterQuery", filterQuery);
+  try {
+    const filteredData = await Book.find(filterQuery);
+    // console.log("filteredData", filteredData);
+    return res.status(200).send(filteredData);
+  } catch (error: any) {
+    console.log("error", error.message);
+    return res.status(500).send({ message: error.message });
+  }
+};
+
+export default {
+  getAllBook,
+  getOneBook,
+  createBook,
+  updateBook,
+  deleteBook,
+  searchData,
+  filterData,
+};
