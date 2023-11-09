@@ -9,6 +9,8 @@ router.get("/author/:id", AuthorController.readOneAuthor);
 
 router.get("/all-authors", AuthorController.readAllAuthor);
 
+router.get("/all", AuthorController.getAllAuthorUsingQuery);
+
 router.put("/update/:id", AuthorController.updateAuthor);
 
 router.delete("/delete/:id", AuthorController.deleteAuthor);

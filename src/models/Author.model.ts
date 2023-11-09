@@ -2,6 +2,7 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IAuthor {
   name: string;
+  // genre: string;
 }
 
 export interface IAuthorModel extends IAuthor, Document {}
